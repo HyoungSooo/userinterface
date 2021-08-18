@@ -9,18 +9,25 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-
 import os
+import sys
+import json
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+ROOT_DIR = os.path.dirname(BASE_DIR)
+SECRETS_PATH = os.path.join(
+    ROOT_DIR, "/home/aaa57403/Hyoungsoo/practiceuser/.vscode/Secrets.json")
 
+# json 파일을 python 객체로 변환
+secrets = json.loads(open(SECRETS_PATH).read())
 
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
+# json은 dict 자료형으로 변환되므로 .items() 함수를 이용해 key와 value값을 가져온다.
+# 이때 settings 모듈에 동적으로 할당한다.
+for key, value in secrets.items():
+    setattr(sys.modules[__name__], key, value)
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'gl%x4m5jnw6c09qa)gy--0u-fu3-s%hag+p$a&2&(ycg)2i9v@'
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -154,3 +161,4 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_SESSION_REMEMBER = True
 SESSION_COOKIE_AGE = 3600
+ACCOUNT_SIGNUP_FORM_CLASS = 'store.forms.UserForm'
