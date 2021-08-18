@@ -1,0 +1,10 @@
+<h1>HomePage</h1>
+{% if user.is_authenticated %}
+  <p>환영합니다
+    {{user.title}}</p>
+  <p>{{user.email}}</p>
+  <a href={% url 'account_logout' %}>logout</a>
+{% else %}
+  <a href={% url 'account_login' %}>login</a>
+  <a href={% url 'account_signup' %}>signup</a>
+{% endif %}
